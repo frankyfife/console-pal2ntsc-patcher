@@ -1,0 +1,3 @@
+# Optional: enables drag and drop in the GUI.
+# Everything else in PAL2NTSC runs on the Python standard library alone.
+tkinterdnd2>=0.3.0

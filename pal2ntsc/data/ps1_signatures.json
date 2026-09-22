@@ -1,0 +1,20 @@
+{
+ "_comment": [
+  "Zusaetzliche feste Bytesignaturen fuer PS1-Executables.",
+  "",
+  "Der eigentliche Videomodus-Patch (libgpu SetVideoMode) braucht diese Datei",
+  "NICHT - er wird strukturell erkannt, siehe platforms/ps1_sig.py. Hier lassen",
+  "sich nur zusaetzliche, feste Muster hinterlegen (z.B. ein Y-Positions-Fix).",
+  "",
+  "Nur Eintraege mit \"verified\": true werden angewendet. Ungeprueftes bleibt",
+  "wirkungslos - ein falscher Blindpatch im Executable macht das Spiel unbrauchbar.",
+  "",
+  "find/replace sind Hex-Strings gleicher Laenge. Sie werden im PSX-EXE gesucht;",
+  "der Patcher schreibt anschliessend den ganzen Rohsektor neu und berechnet",
+  "EDC/ECC.",
+  "",
+  "Feld 'optional': true -> nicht vorausgewaehlt."
+ ],
+ "format": 1,
+ "signatures": []
+}

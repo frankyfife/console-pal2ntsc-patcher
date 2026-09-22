@@ -1,0 +1,72 @@
+{
+ "_comment": [
+  "Spielspezifische Patches, nach Game-ID (PS1/PS2: Boot-ID, GameCube: Game-ID,",
+  "Xbox: Title-ID).",
+  "",
+  "Hier steht, was sich nicht generisch loesen laesst. Eintraege sind NUR dann",
+  "'optional': false (also vorausgewaehlt), wenn ihre Wirkung tatsaechlich",
+  "nachgeprueft wurde - nicht schon, wenn der Code plausibel aussieht.",
+  "",
+  "Aufbau eines Eintrags:",
+  "  name       Kennung des Patches (erscheint im Journal)",
+  "  platform   ps1 | ps2 | gamecube | xbox",
+  "  title_de / title_en   Beschriftung in der Oberflaeche",
+  "  note_de  / note_en    Erklaerung darunter",
+  "  optional   true -> nicht vorausgewaehlt",
+  "  verified   true -> Wirkung im Spiel bestaetigt",
+  "  sites      Liste der Fundstellen:",
+  "               offset   Offset IM EXECUTABLE (nicht im Image!), Zahl oder",
+  "                        Hex-String - dieselbe Fassung liegt in verschiedenen",
+  "                        Images an verschiedenen Stellen",
+  "               find     erwartete Bytes (Hex, so wie sie in der Datei stehen)",
+  "               replace  Ersatz, gleiche Laenge",
+  "",
+  "Stimmen die Bytes einer Fundstelle nicht, wird der ganze Eintrag verworfen -",
+  "dann handelt es sich um eine andere Fassung des Spiels."
+ ],
+ "format": 1,
+ "games": {
+  "SLES_518.97": [
+   {
+    "name": "ps2_simpsons_hitrun_render_height_ntsc",
+    "platform": "ps2",
+    "verified": true,
+    "optional": false,
+    "risky": false,
+    "title_de": "Renderhoehe auf NTSC (448 statt 512) - behebt das abgeschnittene Bild",
+    "title_en": "Render height to NTSC (448 instead of 512) - fixes the cropped picture",
+    "note_de": "Das Spiel waehlt bei 0x003734C0 per 'movn $v1,$a0,$v0' zwischen 448 (NTSC) und 512 (PAL) Zeilen und legt das Ergebnis als Renderhoehe ab. Bleibt es bei 512, zeichnet das Spiel mehr Zeilen als NTSC anzeigt - deshalb wird das HUD unten beschnitten. Der Patch ersetzt das 'movn' durch 'nop', damit 448 stehen bleibt. Im Spiel geprueft: Bild und HUD sitzen danach richtig.",
+    "note_en": "At 0x003734C0 the game picks between 448 (NTSC) and 512 (PAL) lines via 'movn $v1,$a0,$v0' and stores the result as its render height. Left at 512, the game draws more lines than NTSC displays, which is why the HUD gets cropped. The patch replaces the 'movn' with 'nop' so 448 remains. Verified in game: picture and HUD sit correctly afterwards.",
+    "sites": [
+     {
+      "offset": "0x2744C0",
+      "find": "0b188200",
+      "replace": "00000000"
+     }
+    ]
+   },
+   {
+    "name": "ps2_simpsons_hitrun_display_ntsc",
+    "platform": "ps2",
+    "verified": false,
+    "optional": true,
+    "title_de": "Bildlage: DISPLAY-Register auf NTSC (nicht noetig)",
+    "title_en": "Screen position: DISPLAY register to NTSC (not needed)",
+    "note_de": "Setzt DX/DY des GS-DISPLAY-Registers auf die NTSC-Werte (636/50 statt 656/72). Fuer das abgeschnittene Bild ist das nicht die Ursache - dafuer sorgt die Renderhoehe (siehe Patch oben). In PCSX2 wirken DISPLAY-Offsets ausserdem nur mit aktivierten 'Screen Offsets'. Nur anwenden, wenn man genau diese Registerwerte moechte.",
+    "note_en": "Sets the GS DISPLAY register's DX/DY to the NTSC values (636/50 instead of 656/72). This is not the cause of the cropped picture - the render height is (see the patch above). In PCSX2, DISPLAY offsets only take effect with 'Screen Offsets' enabled. Apply only if you specifically want these values.",
+    "sites": [
+     {
+      "offset": "0x274868",
+      "find": "1c00638e",
+      "replace": "02000324"
+     },
+     {
+      "offset": "0x2748A8",
+      "find": "1c00638e",
+      "replace": "02000324"
+     }
+    ]
+   }
+  ]
+ }
+}

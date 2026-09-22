@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Einstellungen der Oberflaeche (Sprachwahl), lokal
+.pal2ntsc_ui.txt
+
+# Patch-Journale und Sicherungen, falls jemand im Projektordner arbeitet
+*.pal2ntsc.json
+*.bak
+
+# Testdaten
+_test/
+*.iso
+*.bin
+*.img
+*.gcm
+*.cue
+
+# Fremdes Material, das nicht mitveroeffentlicht wird:
+# gespeicherte Community-Seiten (Quellen der Titeldatenbank) und
+# historische Patch-Werkzeuge. Die daraus gebaute Datenbank liegt
+# fertig im Repo, siehe pal2ntsc/data/pal60_db.json
+websites/
+old patch tools/
